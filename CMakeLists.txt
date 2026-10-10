@@ -12,6 +12,7 @@ add_library(vsystem_core src/Simulation.cpp
     src/MockRosSimulator.cpp
     src/MockRosVehicle.cpp
     src/Autonomy.cpp
+    src/ScenarioRunner.cpp
 )
 
 target_include_directories(vsystem_core PUBLIC include)
