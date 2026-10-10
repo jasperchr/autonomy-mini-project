@@ -19,7 +19,7 @@ std::vector<LogRow> run(const Scenario& s, VehicleInterface& vehicle, Simulation
 
         sim.update(s.dt_s);
 
-        current_log.time_s = k * s.dt_s;
+        current_log.time_s = (k + 1) * s.dt_s;
         current_log.actual_state = sim.SimState();
         current_log.reported_state = currentState;
         

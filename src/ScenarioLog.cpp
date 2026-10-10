@@ -36,6 +36,12 @@ void writeLog(const std::vector<LogRow>& logs, const std::string& export_path) {
     try {
         std::ofstream logFile(export_path);
 
+        // add column names to logfile
+        logFile << "t_s,"
+           "actual_x_m,actual_y_m,actual_heading_rad,actual_speed_mps,"
+           "reported_x_m,reported_y_m,reported_heading_rad,reported_speed_mps,"
+           "cmd_heading_rad,cmd_speed_mps\n";
+
         for (size_t i{}; i < logs.size(); i++) {
             logFile << writeRow(logs[i]) << '\n';
         }
