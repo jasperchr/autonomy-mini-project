@@ -10,6 +10,6 @@ public:
 private:
     VehicleCommand driveToWaypoint(const VehicleState& state, Vec2 waypoint);
     std::vector<Vec2> waypoints_{};
-    int current_waypoint{0};
+    size_t current_waypoint{0};
 
 };
