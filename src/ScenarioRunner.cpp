@@ -5,12 +5,13 @@
 std::vector<LogRow> run(const Scenario& s, VehicleInterface& vehicle, SimulationInterface& sim) {
     Autonomy a(s.waypoints);
     std::vector<LogRow> logs;
-    LogRow current_log;
+    
     // how many iterations the loop needs to run (duration of scenario divided by tick rate)
     int total_steps = std::round(s.duration_s / s.dt_s);
 
     for (int k{0}; k < total_steps; k++){ 
         std::optional<VehicleState> currentState = vehicle.getState();
+        LogRow current_log;
         if (currentState) {
             VehicleCommand cmd = a.autoPilot(*currentState);
             vehicle.sendCommand(cmd);
