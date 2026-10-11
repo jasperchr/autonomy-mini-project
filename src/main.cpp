@@ -47,14 +47,18 @@ int main() {
 
     // set params for simulation
     SimulationParams params;
-    params.limits = {10.0, 1.0, 5.0};
+    params.limits = {10.0, 1.0, 5.0, 1.0, 1.0};
     params.simulation_noise_m = 0.5;
     params.telemetry_rate_hz = 10;
+    params.wind_speed_mps = 0.5;
+    params.wind_direction_rad = 2.0;
 
     SimulationParams mav_params;
-    mav_params.limits = {10.0, 1.5, 2.5};
+    mav_params.limits = {10.0, 1.5, 2.5, 1.0, 1.0};
     mav_params.simulation_noise_m = 0.5;
     mav_params.telemetry_rate_hz = 5.0;
+    mav_params.wind_speed_mps = 0.5;
+    mav_params.wind_direction_rad = 2.0;
 
     std::vector<LogRow> rows_a = runMockRos(s, params);
     std::vector<LogRow> rows_b = runMockMavlink(s, mav_params);

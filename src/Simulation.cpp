@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 
+// basic wind simulation 
 static void applyWind(VehicleState& state, double dt, const SimulationParams& params) {
 
     const double t = state.timestamp / 1000.0;
@@ -16,18 +17,28 @@ static void applyWind(VehicleState& state, double dt, const SimulationParams& pa
     state.position.y += speed * std::sin(dir) * dt;
 }
 
+// first order lag
+static void applyLag(VehicleState& state, const VehicleCommand& command, double dt, const SimulationParams& params) {
+
+    // close a fraction of the "gap" between current and target speed / heading every tick
+    // capped by accel / rate limits and wrapped
+    double speed_gap = command.target_speed_mps - state.speed_mps;
+    double speed_fraction = dt / params.limits.speed_time_constant_s;
+    double speed_step = speed_gap * speed_fraction;
+    state.speed_mps += std::clamp(speed_step, -(params.limits.max_accel_mps2 * dt), params.limits.max_accel_mps2 * dt);
+    state.speed_mps = std::clamp(state.speed_mps, 0.0, params.limits.max_speed_mps);
+
+    double heading_gap = std::remainder((command.target_heading_rad - state.heading_rad), 2.0 * M_PI);
+    double heading_fraction = dt / params.limits.heading_time_constant_s;
+    double heading_step = heading_gap * heading_fraction;
+    state.heading_rad += std::clamp(heading_step, -(params.limits.max_turn_rad_s * dt), params.limits.max_turn_rad_s * dt);
+    state.heading_rad = std::remainder(state.heading_rad, 2.0 * M_PI);
+}
+
 void advanceState(VehicleState& state, const VehicleCommand& command, double dt, const SimulationParams& params) {
 
-    // update heading
-    double maxTurnChange = params.limits.max_turn_rad_s * dt;
-    double error = std::remainder(command.target_heading_rad - state.heading_rad, 2.0 * M_PI);
-    double newHeading = state.heading_rad + std::clamp(error, -maxTurnChange, maxTurnChange);
-    state.heading_rad = std::remainder(newHeading, 2.0 * M_PI);
-
-    // update speed
-    double maxSpeedChange = params.limits.max_accel_mps2 * dt;
-    double newSpeed = state.speed_mps + std::clamp(command.target_speed_mps - state.speed_mps, -maxSpeedChange, maxSpeedChange);
-    state.speed_mps = std::clamp(newSpeed, 0.0, params.limits.max_speed_mps);
+    // update our speed and heading with first order lag 
+    applyLag(state, command, dt, params);
 
     // update position
     state.position.x += state.speed_mps * std::cos(state.heading_rad) * dt;

@@ -5,6 +5,10 @@ struct Limits {
     double max_speed_mps{25.0};
     double max_turn_rad_s{5.0};
     double max_accel_mps2{5.0};
+
+    // first order lag simulation - 0.1 means no lag as this matches dt
+    double speed_time_constant_s{0.1};
+    double heading_time_constant_s{0.1};
 };
 
 struct SimulationParams {
