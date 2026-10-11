@@ -25,15 +25,26 @@ VehicleCommand Autonomy::driveToWaypoint(const VehicleState& state, Vec2 waypoin
     return command;
 }
 
-VehicleCommand Autonomy::autoPilot(const VehicleState& state) {
+VehicleCommand Autonomy::autoPilot(const std::optional<VehicleState>& state, double time_s) {
     
     // define a stop command
     VehicleCommand stop;
     stop.target_speed_mps = 0.0;
-    stop.target_heading_rad = state.heading_rad;
+    stop.target_heading_rad = lastHeading;
+
+    // safe state handling
+    if (!state) {
+        if (time_s > last_connection_s + connection_timeout_s) {
+            return stop;
+        }
+        return lastCommand;
+    }
+
+    lastHeading = state->heading_rad;
+    last_connection_s = time_s;
 
     // if we have reached our current waypoint, move to the next one
-    if (current_waypoint < waypoints_.size() && distance(state.position, waypoints_[current_waypoint]) < 3.0) {
+    if (current_waypoint < waypoints_.size() && distance(state->position, waypoints_[current_waypoint]) < 3.0) {
         current_waypoint++;
     }
 
@@ -43,5 +54,6 @@ VehicleCommand Autonomy::autoPilot(const VehicleState& state) {
     }
 
     // otherwise, drive to the current waypoint
-    return driveToWaypoint(state, waypoints_[current_waypoint]);
+    lastCommand = driveToWaypoint(*state, waypoints_[current_waypoint]);
+    return lastCommand;
 }

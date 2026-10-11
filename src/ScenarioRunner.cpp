@@ -13,11 +13,10 @@ std::vector<LogRow> run(const Scenario& s, VehicleInterface& vehicle, Simulation
         clock.now = k * s.dt_s; // update fault timers
         std::optional<VehicleState> currentState = vehicle.getState();
         LogRow current_log;
-        if (currentState) {
-            VehicleCommand cmd = a.autoPilot(*currentState);
-            vehicle.sendCommand(cmd);
-            current_log.command = cmd;
-        }
+        
+        VehicleCommand cmd = a.autoPilot(currentState, clock.now);
+        vehicle.sendCommand(cmd);
+        current_log.command = cmd;
 
         sim.update(s.dt_s);
 
