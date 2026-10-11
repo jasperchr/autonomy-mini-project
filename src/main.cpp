@@ -8,10 +8,15 @@ int main() {
 
     // initialize scenario
     Scenario s;
+    SimClock clock;
 
     // add tests to evaluate
     s.speed_limit_mps = 5.1;
     s.waypoint_tolerance_m = 3.3;
+
+    // add fault
+    s.dropout_start_s = 15.0;
+    s.dropout_end_s = 25.0;
 
     // set params for simulation
     SimulationParams params;
@@ -22,10 +27,11 @@ int main() {
     // build simulated vehicle
     auto simulator = std::make_unique<MockRosSimulator>(s.initial_state, params, s.seed);
     SimulationInterface* sim = simulator.get();
-    MockRosVehicle vehicle(std::move(simulator));
+    std::unique_ptr<VehicleInterface> vehicle = std::make_unique<MockRosVehicle>(std::move(simulator));
+    vehicle = runFaults(std::move(vehicle), s, clock);
 
     // run scenario
-    std::vector<LogRow> rows = run(s, vehicle, *sim);
+    std::vector<LogRow> rows = run(s, *vehicle, *sim, clock);
 
     // run evaluation
     std::vector<Result> evaluation = evaluate(rows, s);

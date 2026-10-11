@@ -17,9 +17,16 @@ public:
 protected:
     // vehicle and fault info - child needs this
     std::unique_ptr<VehicleInterface> vehicle_;
-    const SimClock& simClock_;
+    const SimClock* simClock_;
     double startTime_;
     double endTime_;
     // is the fault active?
     bool isActive() const;
+};
+
+class StateDropoutFault : public Fault {
+public: 
+    using Fault::Fault;
+    std::optional<VehicleState> getState() const override;
+    VehicleHealth getHealth() const override;
 };

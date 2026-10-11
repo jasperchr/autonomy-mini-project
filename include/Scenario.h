@@ -21,4 +21,9 @@ struct Scenario {
     std::optional<Geofence> geofence;
     std::optional<double> waypoint_tolerance_m;
 
+    // Faults
+    std::optional<double> dropout_start_s;
+    std::optional<double> dropout_end_s;
+
+
 };

@@ -15,6 +15,7 @@ add_library(vsystem_core src/Simulation.cpp
     src/ScenarioRunner.cpp
     src/ScenarioLog.cpp
     src/Evaluator.cpp
+    src/Fault.cpp
 )
 
 target_include_directories(vsystem_core PUBLIC include)
