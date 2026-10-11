@@ -16,7 +16,7 @@ static std::vector<LogRow> runMockRos(const Scenario& s, const SimulationParams&
 
 }
 
-static std::vector<LogRow> runMockMavlink(const Scenario& s, const MavlinkParams& params) {
+static std::vector<LogRow> runMockMavlink(const Scenario& s, const SimulationParams& params) {
     
     SimClock clock;
 
