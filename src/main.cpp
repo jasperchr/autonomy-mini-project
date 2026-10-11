@@ -51,7 +51,10 @@ int main() {
     params.simulation_noise_m = 0.5;
     params.telemetry_rate_hz = 10;
 
-    MavlinkParams mav_params;
+    SimulationParams mav_params;
+    mav_params.limits = {10.0, 1.5, 2.5};
+    mav_params.simulation_noise_m = 0.5;
+    mav_params.telemetry_rate_hz = 5.0;
 
     std::vector<LogRow> rows_a = runMockRos(s, params);
     std::vector<LogRow> rows_b = runMockMavlink(s, mav_params);

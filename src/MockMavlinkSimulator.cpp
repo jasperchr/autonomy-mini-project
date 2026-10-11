@@ -24,7 +24,7 @@ static MavlinkState toMavlinkState (const VehicleState& state) {
     return mav_state;
 }
 
-MockMavlinkSimulator::MockMavlinkSimulator(const VehicleState& initialState, const MavlinkParams& params, std::uint32_t seed){
+MockMavlinkSimulator::MockMavlinkSimulator(const VehicleState& initialState, const SimulationParams& params, std::uint32_t seed){
     state_ = initialState;
     params_ = params;
     rng_ = std::mt19937(seed);

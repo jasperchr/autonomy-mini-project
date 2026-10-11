@@ -18,17 +18,11 @@ struct MavlinkCommand {
     double target_velocity_east_mps{};
 };
 
-struct MavlinkParams {
-    Limits limits{10.0,1.5,2.5};
-    double simulation_noise_m{0.5};
-    double telemetry_rate_hz{5.0};
-};
-
 class MockMavlinkSimulator : public SimulationInterface {
 public:
 
     // construct a simulated mock Mavlink vehicle with an inital state, sim params and a seed so that the simulation is repeatable
-    MockMavlinkSimulator(const VehicleState& initialState, const MavlinkParams& params, std::uint32_t seed);
+    MockMavlinkSimulator(const VehicleState& initialState, const SimulationParams& params, std::uint32_t seed);
     
     void command(const MavlinkCommand& command);
     
@@ -45,7 +39,7 @@ private:
     VehicleState state_;
     VehicleCommand command_;
     double time_{0.0};
-    MavlinkParams params_;
+    SimulationParams params_;
     std::optional<MavlinkState> latestState_;
 
     // random number for unique simulation, decided by seed
