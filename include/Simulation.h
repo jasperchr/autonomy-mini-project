@@ -1,5 +1,6 @@
 #pragma once
 #include "VehicleTypes.h"
+#include <random>
 
 struct Limits {
     double max_speed_mps{25.0};
@@ -21,6 +22,14 @@ struct SimulationParams {
     double wind_direction_rad{0.0};
     double wind_speed_period_s{50.0};
     double wind_direction_period_s{71.0};
+
+    // sensor error simulation
+    double gps_bias_m{0.0};
+    double gps_bias_time_constant_s{30.0};
+    double speed_noise_mps{0.0};
+    double heading_noise_rad{0.0};
 };
 
 void advanceState(VehicleState& state, const VehicleCommand& command, double dt, const SimulationParams& params);
+
+void applySensorErrors(VehicleState& state, Vec2& position_bias, std::mt19937& rng, double dt, const SimulationParams& params);

@@ -31,8 +31,8 @@ private:
     // random number for unique simulation, decided by seed
     std::mt19937 rng_;
 
-    // normal distribution for noise
-    std::normal_distribution<double> noise_dist_;
+    // bias for gaussian error
+    Vec2 position_bias_{};
 
     // time since last telemetry update, used to determine when to send next telemetry update
     double telemetry_time_{0.0};    

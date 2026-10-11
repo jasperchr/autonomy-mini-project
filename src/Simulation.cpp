@@ -35,6 +35,28 @@ static void applyLag(VehicleState& state, const VehicleCommand& command, double 
     state.heading_rad = std::remainder(state.heading_rad, 2.0 * M_PI);
 }
 
+void applySensorErrors(VehicleState& state, Vec2& position_bias, std::mt19937& rng, double dt, const SimulationParams& params) {
+    std::normal_distribution<double> unit(0.0, 1.0);
+    // my attempt at emulating matlab's gpsSensor
+    double decay = 1 - dt / params.gps_bias_time_constant_s;
+    double noise_std = params.gps_bias_m * std::sqrt(1.0 - decay * decay);
+
+    // add error to GPS
+    position_bias.x = decay * position_bias.x + noise_std * unit(rng);
+    position_bias.y = decay * position_bias.y + noise_std * unit(rng);
+
+    state.position.x += position_bias.x + params.simulation_noise_m * unit(rng);
+    state.position.y += position_bias.y + params.simulation_noise_m * unit(rng);
+
+    // add error to compass and speed sensors + wrap
+    state.speed_mps += params.speed_noise_mps * unit(rng);
+    state.heading_rad += params.heading_noise_rad * unit(rng);
+
+    state.speed_mps = std::max(state.speed_mps, 0.0);
+    state.heading_rad = std::remainder(state.heading_rad, 2.0 * M_PI);
+
+}
+
 void advanceState(VehicleState& state, const VehicleCommand& command, double dt, const SimulationParams& params) {
 
     // update our speed and heading with first order lag 

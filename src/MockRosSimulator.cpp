@@ -5,7 +5,6 @@ MockRosSimulator::MockRosSimulator(const VehicleState& initialState, const Simul
     state_ = initialState;
     params_ = params;
     rng_ = std::mt19937(seed);
-    noise_dist_ = std::normal_distribution<double>(0.0, params_.simulation_noise_m);
     latestState_ = initialState;
 
     assert(params_.telemetry_rate_hz > 0.0);
@@ -27,8 +26,7 @@ void MockRosSimulator::update(double dt) {
     telemetry_time_ -= dt;
     if (telemetry_time_ <= 1e-9) {
         VehicleState noisyState = state_;
-        noisyState.position.x += noise_dist_(rng_);
-        noisyState.position.y += noise_dist_(rng_);
+        applySensorErrors(noisyState, position_bias_, rng_, 1.0 / params_.telemetry_rate_hz, params_);
 
         latestState_ = noisyState;
         telemetry_time_ += 1.0 / params_.telemetry_rate_hz;

@@ -52,6 +52,9 @@ int main() {
     params.telemetry_rate_hz = 10;
     params.wind_speed_mps = 0.5;
     params.wind_direction_rad = 2.0;
+    params.gps_bias_m = 1.0;          
+    params.speed_noise_mps = 0.1;
+    params.heading_noise_rad = 0.03;
 
     SimulationParams mav_params;
     mav_params.limits = {10.0, 1.5, 2.5, 1.0, 1.0};
@@ -59,6 +62,9 @@ int main() {
     mav_params.telemetry_rate_hz = 5.0;
     mav_params.wind_speed_mps = 0.5;
     mav_params.wind_direction_rad = 2.0;
+    mav_params.gps_bias_m = 2.0;          
+    mav_params.speed_noise_mps = 0.15;
+    mav_params.heading_noise_rad = 0.03;
 
     std::vector<LogRow> rows_a = runMockRos(s, params);
     std::vector<LogRow> rows_b = runMockMavlink(s, mav_params);
