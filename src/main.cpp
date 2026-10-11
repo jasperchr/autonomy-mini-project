@@ -34,5 +34,12 @@ int main() {
     // save log
     writeLog(rows, "results/test.csv");
 
+    // return 1 for pass, 0 for fail
+    for (const Result& r : evaluation) {
+        if (r.verdict != Verdict::PASS) {
+            return 1;
+        }
+    }
+
     return 0;
 }
