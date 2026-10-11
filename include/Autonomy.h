@@ -19,6 +19,6 @@ private:
     double connection_timeout_s{5.0};
     double last_connection_s{};
     VehicleCommand lastCommand;
-    double lastHeading;
+    double lastHeading{};
 
 };

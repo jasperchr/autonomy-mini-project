@@ -12,6 +12,7 @@ add_library(vsystem_core src/Simulation.cpp
     src/MockRosSimulator.cpp
     src/MockRosVehicle.cpp
     src/MockMavlinkSimulator.cpp
+    src/MockMavlinkVehicle.cpp
     src/Autonomy.cpp
     src/ScenarioRunner.cpp
     src/ScenarioLog.cpp
