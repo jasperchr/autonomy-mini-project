@@ -1,11 +1,17 @@
 #include "ScenarioRunner.h"
 #include "MockRosVehicle.h"
+#include "Evaluator.h"
+#include <iostream>
 
 
 int main() {
 
     // initialize scenario
     Scenario s;
+
+    // add tests to evaluate
+    s.speed_limit_mps = 5.1;
+    s.waypoint_tolerance_m = 3.3;
 
     // set params for simulation
     SimulationParams params;
@@ -20,6 +26,10 @@ int main() {
 
     // run scenario
     std::vector<LogRow> rows = run(s, vehicle, *sim);
+
+    // run evaluation
+    std::vector<Result> evaluation = evaluate(rows, s);
+    std::cout << writeResults(evaluation) << '\n'; // not sure how is best to output for now
 
     // save log
     writeLog(rows, "results/test.csv");

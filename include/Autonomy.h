@@ -2,6 +2,8 @@
 #include <vector>
 #include "VehicleTypes.h"
 
+double distance(const Vec2& a, const Vec2& b);
+
 class Autonomy {
 public:
     explicit Autonomy(std::vector<Vec2> waypoints);

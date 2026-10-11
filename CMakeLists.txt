@@ -14,6 +14,7 @@ add_library(vsystem_core src/Simulation.cpp
     src/Autonomy.cpp
     src/ScenarioRunner.cpp
     src/ScenarioLog.cpp
+    src/Evaluator.cpp
 )
 
 target_include_directories(vsystem_core PUBLIC include)
