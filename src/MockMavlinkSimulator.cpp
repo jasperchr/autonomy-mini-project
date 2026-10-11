@@ -44,7 +44,7 @@ void MockMavlinkSimulator::command(const MavlinkCommand& command) {
 
 void MockMavlinkSimulator::update(double dt) {
     time_ += dt;
-    advanceState(state_, command_, dt, params_.limits);
+    advanceState(state_, command_, dt, params_);
 
     // set timestamp
     state_.timestamp = static_cast<std::uint64_t>(std::round(time_ * 1000.0));

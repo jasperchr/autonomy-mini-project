@@ -11,6 +11,12 @@ struct SimulationParams {
     Limits limits{};
     double simulation_noise_m{0.5};
     double telemetry_rate_hz{10.0};
+
+    // wind simulation
+    double wind_speed_mps{0.0};
+    double wind_direction_rad{0.0};
+    double wind_speed_period_s{50.0};
+    double wind_direction_period_s{71.0};
 };
 
-void advanceState(VehicleState& state, const VehicleCommand& command, double dt, const Limits& limits);
+void advanceState(VehicleState& state, const VehicleCommand& command, double dt, const SimulationParams& params);
