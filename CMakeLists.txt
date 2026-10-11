@@ -11,6 +11,7 @@ add_compile_options(-Wall -Wextra -g)
 add_library(vsystem_core src/Simulation.cpp
     src/MockRosSimulator.cpp
     src/MockRosVehicle.cpp
+    src/MockMavlinkSimulator.cpp
     src/Autonomy.cpp
     src/ScenarioRunner.cpp
     src/ScenarioLog.cpp

@@ -21,7 +21,7 @@ void MockRosSimulator::update(double dt) {
     advanceState(state_, command_, dt, params_.limits);
 
     // set timestamp
-    state_.timestamp = static_cast<std::uint64_t>(std::llround(time_ * 1000.0));
+    state_.timestamp = static_cast<std::uint64_t>(std::round(time_ * 1000.0));
 
     // add noise to the state for telemetry and take a new sample
     telemetry_time_ -= dt;
