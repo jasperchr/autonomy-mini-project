@@ -54,8 +54,8 @@ int main(int argc, char* argv[]) {
     std::cout << writeResults(evaluation_b) << '\n'; // not sure how is best to output for now
 
     // save log
-    writeLog(rows_a, "results/mock_ros_test.csv");
-    writeLog(rows_b, "results/mock_mavlink_test.csv");
+    writeLog(rows_a, "results/"+ t.scenario.name + "_ros.csv");
+    writeLog(rows_b, "results/" + t.scenario.name + "_mavlink.csv");
 
 
     // return 0 for pass, 1 for fail
