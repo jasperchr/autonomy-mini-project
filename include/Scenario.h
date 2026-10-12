@@ -24,6 +24,6 @@ struct Scenario {
     // Faults
     std::optional<double> dropout_start_s;
     std::optional<double> dropout_end_s;
-
+    
 
 };

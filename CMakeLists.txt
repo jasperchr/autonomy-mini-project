@@ -8,6 +8,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_compile_options(-Wall -Wextra -g)
 
+find_package(nlohmann_json 3 REQUIRED)
+
 add_library(vsystem_core src/Simulation.cpp
     src/MockRosSimulator.cpp
     src/MockRosVehicle.cpp
@@ -18,6 +20,7 @@ add_library(vsystem_core src/Simulation.cpp
     src/ScenarioLog.cpp
     src/Evaluator.cpp
     src/Fault.cpp
+    src/JsonHandler.cpp
 )
 
 target_include_directories(vsystem_core PUBLIC include)
